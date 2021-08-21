@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO</title>
+</head>
+<body style="background: black; color: white">
+<h1>Open Console</h1>
+
+<button onclick="alert('hi')">Alert</button>
+
+</body>
+
+<script type="module">
+
+    import {execute_forever, execute_once, execute_times} from "../dist/executor.esm.min.js";
+
+    let test_num = 0;
+    let result = null;
+    let p;
+    execute_times(10, (i) => {
+        test_num = i;
+        p = execute_once('test_once', () => {
+            console.log('test_once', test_num)
+            return test_num;
+        });
+    }, false);
+
+    console.log('test_once result', await p);
+
+    let counter = 0;
+    result = await execute_forever(() => {
+        counter++;
+        if (counter === 10) {
+            return true;
+        }
+    });
+
+    console.log('execute_forever', 'break when counter === 10', result);
+
+    await execute_forever((breaker) => {
+        counter++;
+
+        if (counter === 100) {
+            breaker();
+        }
+    })
+
+    console.log('execute_forever', 'use breaker() when counter === 100', counter);
+
+    execute_forever(() => {
+        counter++;
+        if (counter % 1000 === 0) {
+            console.log('never end counter', counter);
+        }
+    })
+
+
+</script>
+
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "executor.js",
+  "version": "1.0.0",
+  "scripts": {
+    "build-esm": "esbuild src/executor.js --bundle --keep-names --minify --sourcemap --target=es2020 --format=esm --outfile=dist/executor.esm.min.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.12.22"
+  }
+}
